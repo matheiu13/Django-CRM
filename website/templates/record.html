@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container px-[10vw]">
+    <h1 class="text-4xl">Customer:</h1>
+    <p class="text-lg">{{customer_record.first_name}} {{customer_record.last_name}}</p>
+    <div class="border-[1px] border-black/10 rounded-md p-4 w-[60vw]">
+        <h1 class="font-bold text-2xl">Edit customer details</h1>
+        <form method="POST" action="{% url 'update_record' customer_record.id %}">
+            {% csrf_token %}
+            <div>
+                <label for="customer_id" class="text-md">Customer ID:</label>
+                <div class="">
+                    <input name="customer_id" required disabled value="{{ customer_record.id }}"
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900/50 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 pl-2">
+                </div>
+            </div>
+            {{ form.as_p }}
+
+            <div>
+                <label for="created_at" class="text-md">Created At:</label>
+                <div class="">
+                    <input name="created_at" required disabled value="{{ customer_record.created_at }}"
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900/50 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 pl-2">
+                </div>
+            </div>
+
+
+            <br />
+            <div class="flex justify-between border-[1px] border-black/10 bg-gray-600/10 rounded-md w-full p-4 ">
+                <div class="w-auto flex gap-2">
+                    <button type="submit" class="flex w-[55px] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+                    <a href="{% url 'home' %}" class="flex w-[75px] justify-center rounded-md bg-gray-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Go back</a>
+                </div>
+                <a href="{% url 'delete_record' customer_record.id %}" class="flex w-[125px] justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Delete
+                    Record</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
